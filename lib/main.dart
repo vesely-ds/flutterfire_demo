@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/auth.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -7,7 +9,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,7 +32,34 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const AuthGate(),
+    );
+  }
+}
+
+class AuthGate extends StatelessWidget {
+  const AuthGate({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        // User is not signed in
+        if (!snapshot.hasData) {
+          return const SignInScreen(
+              providerConfigs: [
+                EmailProviderConfiguration(),
+                GoogleProviderConfiguration(
+                  clientId: '198842562631-u0c18injslknpvsi715kks8p1atcdldq.apps.googleusercontent.com',
+                ),
+              ]
+          );
+        }
+
+        // Render your application if authenticated
+        return const MyHomePage(title: 'Flutter Demo Home Page');
+      },
     );
   }
 }
