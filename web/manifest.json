@@ -1,6 +1,6 @@
 {
-    "name": "flutterfire_demo",
-    "short_name": "flutterfire_demo",
+    "name": "FlutterFire Demo",
+    "short_name": "FF Demo",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
