@@ -49,7 +49,6 @@ class AuthGate extends StatelessWidget {
         if (!snapshot.hasData) {
           return const SignInScreen(
               providerConfigs: [
-                EmailProviderConfiguration(),
                 GoogleProviderConfiguration(
                   clientId: '198842562631-u0c18injslknpvsi715kks8p1atcdldq.apps.googleusercontent.com',
                 ),
@@ -58,7 +57,14 @@ class AuthGate extends StatelessWidget {
         }
 
         // Render your application if authenticated
-        return const MyHomePage(title: 'Flutter Demo Home Page');
+        return const ProfileScreen(
+          providerConfigs: [
+            GoogleProviderConfiguration(
+              clientId: '198842562631-u0c18injslknpvsi715kks8p1atcdldq.apps.googleusercontent.com',
+            ),
+          ],
+          avatarSize: 24,
+        );
       },
     );
   }
